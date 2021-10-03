@@ -1,0 +1,17 @@
+{
+    "name": "Appalachia.Pooling.Objects",
+    "rootNamespace": "",
+    "references": [
+        "GUID:873f913f34eb2c34385d17b9a87f21b9",
+        "GUID:cf75d8bea22d8fb469a2aa239cfc6930"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
