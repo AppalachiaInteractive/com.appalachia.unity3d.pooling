@@ -17,7 +17,17 @@ namespace Appalachia.Pooling.Arrays
         private const int DefaultMaxNumberOfArraysPerBucket = 50;
 
         /// <summary>Lazily-allocated empty array used when arrays of length 0 are requested.</summary>
-        private static T[] s_emptyArray; // we support contracts earlier than those with Array.Empty<T>()
+        private static T[]
+            s_emptyArray; // we support contracts earlier than those with Array.Empty<T>()
+
+        private static readonly ProfilerMarker _PRF_DefaultArrayPool_DefaultArrayPool =
+            new("DefaultArrayPool.DefaultArrayPool");
+
+        private static readonly ProfilerMarker _PRF_DefaultArrayPool_Rent =
+            new("DefaultArrayPool.Rent");
+
+        private static readonly ProfilerMarker _PRF_DefaultArrayPool_Return =
+            new("DefaultArrayPool.Return");
 
         private readonly Bucket[] _buckets;
 
@@ -25,7 +35,6 @@ namespace Appalachia.Pooling.Arrays
         {
         }
 
-        private static readonly ProfilerMarker _PRF_DefaultArrayPool_DefaultArrayPool = new ProfilerMarker("DefaultArrayPool.DefaultArrayPool");
         public DefaultArrayPool(int maxArrayLength, int maxArraysPerBucket)
         {
             using (_PRF_DefaultArrayPool_DefaultArrayPool.Auto())
@@ -58,7 +67,11 @@ namespace Appalachia.Pooling.Arrays
                 var buckets = new Bucket[maxBuckets + 1];
                 for (var i = 0; i < buckets.Length; i++)
                 {
-                    buckets[i] = new Bucket(Utilities.GetMaxSizeForBucket(i), maxArraysPerBucket, poolId);
+                    buckets[i] = new Bucket(
+                        Utilities.GetMaxSizeForBucket(i),
+                        maxArraysPerBucket,
+                        poolId
+                    );
                 }
 
                 _buckets = buckets;
@@ -68,7 +81,6 @@ namespace Appalachia.Pooling.Arrays
         /// <summary>Gets an ID for the pool to use with events.</summary>
         private int Id => GetHashCode();
 
-        private static readonly ProfilerMarker _PRF_DefaultArrayPool_Rent = new ProfilerMarker("DefaultArrayPool.Rent");
         public override T[] Rent(int minimumLength)
         {
             using (_PRF_DefaultArrayPool_Rent.Auto())
@@ -130,7 +142,6 @@ namespace Appalachia.Pooling.Arrays
             }
         }
 
-        private static readonly ProfilerMarker _PRF_DefaultArrayPool_Return = new ProfilerMarker("DefaultArrayPool.Return");
         public override void Return(T[] array, bool clearArray = false)
         {
             using (_PRF_DefaultArrayPool_Return.Auto())
@@ -169,15 +180,17 @@ namespace Appalachia.Pooling.Arrays
                 //var log = ArrayPoolEventSource.Log;
                 //log.BufferReturned(array.GetHashCode(), array.Length, Id);
             }
-        }/// <summary>Provides a thread-safe bucket containing buffers that can be Rent'd and Return'd.</summary>
+        }
+
+        /// <summary>Provides a thread-safe bucket containing buffers that can be Rent'd and Return'd.</summary>
         private sealed class Bucket
         {
             internal readonly int _bufferLength;
             private readonly T[][] _buffers;
             private readonly int _poolId;
-
-            private object _lock; // do not make this readonly; it's a mutable struct
             private int _index;
+
+            private readonly object _lock; // do not make this readonly; it's a mutable struct
 
             /// <summary>
             ///     Creates the pool with numberOfBuffers arrays where each buffer is of bufferLength length.

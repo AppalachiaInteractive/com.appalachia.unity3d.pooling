@@ -11,8 +11,8 @@ namespace Appalachia.Pooling.Objects
     public class LeakTrackingObjectPool<T>
         where T : class, new()
     {
-        private readonly ConditionalWeakTable<T, Tracker> _trackers = new ConditionalWeakTable<T, Tracker>();
         private readonly ObjectPool<T> _inner;
+        private readonly ConditionalWeakTable<T, Tracker> _trackers = new();
 
         public LeakTrackingObjectPool(ObjectPool<T> inner)
         {
@@ -63,7 +63,9 @@ namespace Appalachia.Pooling.Objects
             {
                 if (!_disposed && !Environment.HasShutdownStarted)
                 {
-                    Debug.Fail($"{typeof(T).Name} was leaked. Created at: {Environment.NewLine}{_stack}");
+                    Debug.Fail(
+                        $"{typeof(T).Name} was leaked. Created at: {Environment.NewLine}{_stack}"
+                    );
                 }
             }
         }

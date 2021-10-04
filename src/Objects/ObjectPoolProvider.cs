@@ -15,40 +15,44 @@ namespace Appalachia.Pooling.Objects
         public static ObjectPool<T> Create<T>()
             where T : class, new()
         {
-            return new ObjectPool<T>(() => new T());
+            return new(() => new T());
         }
 
         public static ObjectPool<T> Create<T>(Action<T> customReset)
             where T : class, new()
         {
-            return new ObjectPool<T>(() => new T(), customReset);
+            return new(() => new T(), customReset);
         }
 
         public static ObjectPool<T> Create<T>(Action<T> customReset, Action<T> customPreGet)
             where T : class, new()
         {
-            return new ObjectPool<T>(() => new T(), customReset, customPreGet);
+            return new(() => new T(), customReset, customPreGet);
         }
 
         public static ObjectPool<T> Create<T>(Func<T> customAdd)
             where T : class
         {
-            return new ObjectPool<T>(customAdd);
+            return new(customAdd);
         }
 
         public static ObjectPool<T> Create<T>(Func<T> customAdd, Action<T> customReset)
             where T : class
         {
-            return new ObjectPool<T>(customAdd, customReset);
+            return new(customAdd, customReset);
         }
 
-        public static ObjectPool<T> Create<T>(Func<T> customAdd, Action<T> customReset, Action<T> customPreGet)
+        public static ObjectPool<T> Create<T>(
+            Func<T> customAdd,
+            Action<T> customReset,
+            Action<T> customPreGet)
             where T : class
         {
-            return new ObjectPool<T>(customAdd, customReset, customPreGet);
+            return new(customAdd, customReset, customPreGet);
         }
 
-        public static ObjectPool<GameObject> CreateGameObjectPool(HideFlags hideFlags = HideFlags.DontSave)
+        public static ObjectPool<GameObject> CreateGameObjectPool(
+            HideFlags hideFlags = HideFlags.DontSave)
         {
             var resetAction = new Action<GameObject>(
                 obj =>
@@ -85,7 +89,11 @@ namespace Appalachia.Pooling.Objects
             HideFlags hideFlagsReset = HideFlags.HideAndDontSave,
             HideFlags hideFlagsAdd = HideFlags.DontSave)
         {
-            return CreatePrefabPool(() => Object.Instantiate(prefabs[Random.Range(0, prefabs.Length - 1)]), hideFlagsReset, hideFlagsAdd);
+            return CreatePrefabPool(
+                () => Object.Instantiate(prefabs[Random.Range(0, prefabs.Length - 1)]),
+                hideFlagsReset,
+                hideFlagsAdd
+            );
         }
 
         public static ObjectPool<GameObject> CreatePrefabPool(
@@ -93,7 +101,11 @@ namespace Appalachia.Pooling.Objects
             HideFlags hideFlagsReset = HideFlags.HideAndDontSave,
             HideFlags hideFlagsAdd = HideFlags.DontSave)
         {
-            return CreatePrefabPool(() => Object.Instantiate(prefabs[Random.Range(0, prefabs.Count - 1)]), hideFlagsReset, hideFlagsAdd);
+            return CreatePrefabPool(
+                () => Object.Instantiate(prefabs[Random.Range(0, prefabs.Count - 1)]),
+                hideFlagsReset,
+                hideFlagsAdd
+            );
         }
 
         public static ObjectPool<GameObject> CreatePrefabPool(
@@ -132,7 +144,7 @@ namespace Appalachia.Pooling.Objects
         public static LeakTrackingObjectPool<T> CreateLeakTrackingPool<T>()
             where T : class, new()
         {
-            return new LeakTrackingObjectPool<T>(Create<T>());
+            return new(Create<T>());
         }
     }
 }

@@ -8,37 +8,60 @@ namespace Appalachia.Pooling.Objects
     public class ObjectPool<T> : IDisposable
         where T : class
     {
-        private static readonly ProfilerMarker _PRF_ObjectPool_ObjectPool = new ProfilerMarker("ObjectPool.ObjectPool");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Dispose = new ProfilerMarker("ObjectPool.Dispose");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Get = new ProfilerMarker("ObjectPool.Get");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Return = new ProfilerMarker("ObjectPool.Return");
+        private static readonly ProfilerMarker _PRF_ObjectPool_ObjectPool =
+            new("ObjectPool.ObjectPool");
 
-        private static readonly ProfilerMarker _PRF_ObjectPool_Get_DisposalCheck = new ProfilerMarker("ObjectPool.Get.DisposalCheck");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Get_ListCheck = new ProfilerMarker("ObjectPool.Get.ListCheck");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Get_ListCheck_Add = new ProfilerMarker("ObjectPool.Get.ListCheck.Add");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Get_ListCheck_GetLast = new ProfilerMarker("ObjectPool.Get.ListCheck.GetLast");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Get_ListCheck_RemoveLast = new ProfilerMarker("ObjectPool.Get.ListCheck.RemoveLast");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Get_CustomPreGet = new ProfilerMarker("ObjectPool.Get.CustomPreGet");
+        private static readonly ProfilerMarker _PRF_ObjectPool_Dispose = new("ObjectPool.Dispose");
+        private static readonly ProfilerMarker _PRF_ObjectPool_Get = new("ObjectPool.Get");
+        private static readonly ProfilerMarker _PRF_ObjectPool_Return = new("ObjectPool.Return");
 
-        private static readonly ProfilerMarker _PRF_ObjectPool_Return_SelfPoolReset = new ProfilerMarker("ObjectPool.Return.SelfPoolReset");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Return_CustomReset = new ProfilerMarker("ObjectPool.Return.CustomReset");
-        private static readonly ProfilerMarker _PRF_ObjectPool_Return_OnReset = new ProfilerMarker("ObjectPool.Return.CustomReset");
+        private static readonly ProfilerMarker _PRF_ObjectPool_Get_DisposalCheck =
+            new("ObjectPool.Get.DisposalCheck");
 
-        protected volatile bool _isDisposed;
+        private static readonly ProfilerMarker _PRF_ObjectPool_Get_ListCheck =
+            new("ObjectPool.Get.ListCheck");
 
-        private readonly Action<T> _customReset;
+        private static readonly ProfilerMarker _PRF_ObjectPool_Get_ListCheck_Add =
+            new("ObjectPool.Get.ListCheck.Add");
+
+        private static readonly ProfilerMarker _PRF_ObjectPool_Get_ListCheck_GetLast =
+            new("ObjectPool.Get.ListCheck.GetLast");
+
+        private static readonly ProfilerMarker _PRF_ObjectPool_Get_ListCheck_RemoveLast =
+            new("ObjectPool.Get.ListCheck.RemoveLast");
+
+        private static readonly ProfilerMarker _PRF_ObjectPool_Get_CustomPreGet =
+            new("ObjectPool.Get.CustomPreGet");
+
+        private static readonly ProfilerMarker _PRF_ObjectPool_Return_SelfPoolReset =
+            new("ObjectPool.Return.SelfPoolReset");
+
+        private static readonly ProfilerMarker _PRF_ObjectPool_Return_CustomReset =
+            new("ObjectPool.Return.CustomReset");
+
+        private static readonly ProfilerMarker _PRF_ObjectPool_Return_OnReset =
+            new("ObjectPool.Return.CustomReset");
+
         private readonly Func<T> _customAdd;
         private readonly Action<T> _customPreGet;
+
+        private readonly Action<T> _customReset;
 
         private protected readonly AppaList<T> _list;
 
         private readonly bool _selfPooling;
 
+        protected volatile bool _isDisposed;
+
         public ObjectPool(Func<T> customAdd) : this(customAdd, null)
         {
         }
 
-        public ObjectPool(Func<T> customAdd, Action<T> customReset) : this(customAdd, customReset, null)
+        public ObjectPool(Func<T> customAdd, Action<T> customReset) : this(
+            customAdd,
+            customReset,
+            null
+        )
         {
         }
 

@@ -10,11 +10,18 @@ namespace Appalachia.Pooling.Objects
     public class DisposingObjectPool<T> : ObjectPool<T>
         where T : class, IDisposable
     {
-        private static readonly ProfilerMarker _PRF_DisposingObjectPool_DisposingObjectPool = new ProfilerMarker("DisposingObjectPool.DisposingObjectPool");
-        private static readonly ProfilerMarker _PRF_DisposingObjectPool_DisposeItem = new ProfilerMarker("DisposingObjectPool.DisposeItem");
-        private static readonly ProfilerMarker _PRF_DisposingObjectPool_OnReset = new ProfilerMarker("DisposingObjectPool.OnReset");
-        private static readonly ProfilerMarker _PRF_DisposingObjectPool_OnDispose = new ProfilerMarker("DisposingObjectPool.OnDispose");
-        
+        private static readonly ProfilerMarker _PRF_DisposingObjectPool_DisposingObjectPool =
+            new("DisposingObjectPool.DisposingObjectPool");
+
+        private static readonly ProfilerMarker _PRF_DisposingObjectPool_DisposeItem =
+            new("DisposingObjectPool.DisposeItem");
+
+        private static readonly ProfilerMarker _PRF_DisposingObjectPool_OnReset =
+            new("DisposingObjectPool.OnReset");
+
+        private static readonly ProfilerMarker _PRF_DisposingObjectPool_OnDispose =
+            new("DisposingObjectPool.OnDispose");
+
         protected readonly bool _disposeElements;
 
         public DisposingObjectPool(Func<T> customAdd) : base(customAdd)
@@ -28,7 +35,10 @@ namespace Appalachia.Pooling.Objects
             }
         }
 
-        public DisposingObjectPool(Func<T> customAdd, Action<T> customReset) : base(customAdd, customReset)
+        public DisposingObjectPool(Func<T> customAdd, Action<T> customReset) : base(
+            customAdd,
+            customReset
+        )
         {
             using (_PRF_DisposingObjectPool_DisposingObjectPool.Auto())
             {
@@ -39,7 +49,8 @@ namespace Appalachia.Pooling.Objects
             }
         }
 
-        public DisposingObjectPool(Func<T> customAdd, Action<T> customReset, Action<T> customPreGet) : base(customAdd, customReset, customPreGet)
+        public DisposingObjectPool(Func<T> customAdd, Action<T> customReset, Action<T> customPreGet)
+            : base(customAdd, customReset, customPreGet)
         {
             using (_PRF_DisposingObjectPool_DisposingObjectPool.Auto())
             {

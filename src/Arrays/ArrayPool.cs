@@ -26,6 +26,11 @@ namespace Appalachia.Pooling.Arrays
         /// <summary>The lazily-initialized shared pool instance.</summary>
         private static volatile ArrayPool<T> s_sharedInstance;
 
+        private static readonly ProfilerMarker _PRF_ArrayPool_EnsureSharedCreated =
+            new("ArrayPool.EnsureSharedCreated");
+
+        private static readonly ProfilerMarker _PRF_ArrayPool_Create = new("ArrayPool.Create");
+
         /// <summary>
         ///     Retrieves a shared <see cref="ArrayPool{T}" /> instance.
         /// </summary>
@@ -39,7 +44,6 @@ namespace Appalachia.Pooling.Arrays
         /// </remarks>
         public static ArrayPool<T> Shared => s_sharedInstance ?? EnsureSharedCreated();
 
-        private static readonly ProfilerMarker _PRF_ArrayPool_EnsureSharedCreated = new ProfilerMarker("ArrayPool.EnsureSharedCreated");
         /// <summary>Ensures that <see cref="s_sharedInstance" /> has been initialized to a pool and returns it.</summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static ArrayPool<T> EnsureSharedCreated()
@@ -51,7 +55,6 @@ namespace Appalachia.Pooling.Arrays
             }
         }
 
-        private static readonly ProfilerMarker _PRF_ArrayPool_Create = new ProfilerMarker("ArrayPool.Create");
         /// <summary>
         ///     Creates a new <see cref="ArrayPool{T}" /> instance using default configuration options.
         /// </summary>
