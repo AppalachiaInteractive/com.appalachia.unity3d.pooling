@@ -1,7 +1,7 @@
 {
   "name": "com.appalachia.unity3d.pooling",
   "displayName": "Appalachia.Pooling for Unity3D",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "unity": "2020.3",
   "description": "Array and Unity Object pooling for Unity3D.",
   "keywords": [
