@@ -3,7 +3,7 @@ using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.NonSerialized;
 using Unity.Profiling;
 
-namespace Appalachia.Core.Pooling.Objects
+namespace Appalachia.Pooling.Objects
 {
     public class ObjectPool<T> : IDisposable
         where T : class

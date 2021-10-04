@@ -6,7 +6,7 @@ using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.Pooling.Arrays
+namespace Appalachia.Pooling.Arrays
 {
     public sealed class DefaultArrayPool<T> : ArrayPool<T>
     {

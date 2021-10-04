@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 #endregion
 
-namespace Appalachia.Core.Pooling.Objects
+namespace Appalachia.Pooling.Objects
 {
     public class LeakTrackingObjectPool<T>
         where T : class, new()

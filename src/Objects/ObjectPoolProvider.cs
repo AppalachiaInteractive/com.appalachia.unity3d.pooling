@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 #endregion
 
-namespace Appalachia.Core.Pooling.Objects
+namespace Appalachia.Pooling.Objects
 {
     public static class ObjectPoolProvider
     {

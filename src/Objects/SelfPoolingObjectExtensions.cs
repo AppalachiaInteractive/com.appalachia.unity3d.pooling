@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Appalachia.Core.Pooling.Objects
+namespace Appalachia.Pooling.Objects
 {
     public static class SelfPoolingObjectExtensions
     {

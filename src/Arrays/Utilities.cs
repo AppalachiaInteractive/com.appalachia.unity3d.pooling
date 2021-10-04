@@ -4,7 +4,7 @@ using UnityEngine.Assertions;
 
 #endregion
 
-namespace Appalachia.Core.Pooling.Arrays
+namespace Appalachia.Pooling.Arrays
 {
     internal static class Utilities
     {

@@ -5,7 +5,7 @@ using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.Pooling.Objects
+namespace Appalachia.Pooling.Objects
 {
     public abstract class SelfPoolingObject
     {

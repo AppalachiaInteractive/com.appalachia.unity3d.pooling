@@ -5,7 +5,7 @@ using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.Pooling.Objects
+namespace Appalachia.Pooling.Objects
 {
     public class DisposingObjectPool<T> : ObjectPool<T>
         where T : class, IDisposable

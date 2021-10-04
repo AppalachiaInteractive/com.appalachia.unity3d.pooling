@@ -2,9 +2,9 @@
 
 #endregion
 
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 
-namespace Appalachia.Core.Pooling.Objects
+namespace Appalachia.Pooling.Objects
 {
     [EditorOnlyInitializeOnLoad]
     public static class ObjectPoolInitializer
